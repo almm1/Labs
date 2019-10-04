@@ -29,7 +29,7 @@ int main()
 
 		while (*ptr != '\0')
 		{
-			if (*ptr == ' ' || *ptr == '.' || *ptr == ',' || *ptr == '\n' || *ptr =='\0')
+			if (*ptr == ' ' || *ptr == '.' || *ptr == ',')
 			{
 				
 			}
