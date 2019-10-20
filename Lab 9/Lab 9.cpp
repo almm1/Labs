@@ -29,7 +29,6 @@ int main()
 		ptr = fgets(line, MAXLINE, fpin);
 		numberStr++;
 
-
 		if (ptr == NULL)    
 		break;
 
@@ -47,8 +46,21 @@ int main()
 			rez = numberStr;
 		}
 		cnt = 0;
-	
 	}
+
+	numberStr = 0;
+	rewind(fpin);
+	
+	while (!feof(fpin))
+	{
+		ptr = fgets(line, MAXLINE, fpin);
+		numberStr++;
+
+		if (rez != numberStr)
+		fputs(line, fpout);
+	}
+	rez = 0;
 	fclose(fpin);
 	fclose(fpout);
+	return 0;
 }
