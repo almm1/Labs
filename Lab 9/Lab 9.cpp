@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdio.h>
 
+#define YES 1
+#define NO 0
 #define MAXLINE 1024
 
 int main()
@@ -10,11 +12,13 @@ int main()
 	FILE *fpout;
 
 	char line[MAXLINE];
+	char filename[MAXLINE];
 	char *ptr;
 	int cnt = 0;
 	int cnt_2 = 0;
 	int numberStr = 0;
 	int rez = 0;
+	int flag = YES;
 
 	fpin = fopen("test.txt", "a+");
 	if (fpin == NULL)
@@ -36,7 +40,15 @@ int main()
 		{
 			if (*ptr == ' ')
 			{
-				cnt++;
+				if (flag == YES)
+				{
+					cnt++;
+				}
+				flag = YES;
+			}
+			if ((*ptr < 'a' || *ptr > 'z') && (*ptr < 'A' || *ptr > 'Z'))
+			{
+				flag = NO;
 			}
 			ptr++;
 		}
