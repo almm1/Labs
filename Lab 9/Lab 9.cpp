@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 	FILE *fpout;
 
 	char line[MAXLINE];
-	char filename[100] = {0};
+	char filename[100] = {0}; // путь до файла
 	char *ptr;
 	int cnt = 0;
 	int cnt_2 = 0;
