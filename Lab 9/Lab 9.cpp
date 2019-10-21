@@ -14,11 +14,11 @@ int main(int argc, char* argv[])
 	char line[MAXLINE];
 	char filename[100] = {0}; // путь до файла
 	char *ptr;
-	int cnt = 0;
+	int cnt = 0; //счетчик слов
 	int cnt_2 = 0;
-	int numberStr = 0;
-	int rez = 0;
-	int flag = YES;
+	int numberStr = 0; //номер большой строки
+	int rez = 0; //резерв
+	int flag = YES; //признак лишних символов
 
 
 	if (argc == 2)
@@ -34,25 +34,25 @@ int main(int argc, char* argv[])
 		goto tr;
 	}
 
-	fpout = fopen("result.txt", "w+");
+	fpout = fopen("result.txt", "w+");// результирующий файл
 	if (fpout == NULL)
 		return 0;
 
-	while (!feof(fpin))
+	while (!feof(fpin))//пока не конец файла
 	{
-		ptr = fgets(line, MAXLINE, fpin);
+		ptr = fgets(line, MAXLINE, fpin);// считывание строки из файла
 		numberStr++;
 
 		if (ptr == NULL)    
 		break;
 
-		while (*ptr != '\0')
+		while (*ptr != '\0')// до конца строки
 		{
-			if (*ptr == ' ')
+			if (*ptr == ' ')// до разделитель
 			{
 				if (flag == YES)
 				{
-					cnt++;
+					cnt++;//счетчик слов
 				}
 				flag = YES;
 			}
@@ -60,18 +60,18 @@ int main(int argc, char* argv[])
 			{
 				flag = NO;
 			}
-			ptr++;
+			ptr++;//передвижение указателя
 		}
-		if (cnt > cnt_2)
+		if (cnt > cnt_2)// сравнения строк
 		{
 			cnt_2 = cnt;
-			rez = numberStr;
+			rez = numberStr;//запись номера строки в резерв
 		}
-		cnt = 0;
+		cnt = 0;//обнуления счетчика слов
 	}
 
-	numberStr = 0;
-	rewind(fpin);
+	numberStr = 0;// обнуление позиции строки
+	rewind(fpin);// перемещение в начало файла
 	
 	while (!feof(fpin))
 	{
@@ -79,10 +79,10 @@ int main(int argc, char* argv[])
 		numberStr++;
 
 		if (rez != numberStr)
-		fputs(line, fpout);
+		fputs(line, fpout);// запись в результирующий файл
 	}
 	rez = 0;
-	fclose(fpin);
-	fclose(fpout);
+	fclose(fpin);  //закрытие
+	fclose(fpout); //файлов
 	return 0;
 }
