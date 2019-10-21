@@ -56,12 +56,13 @@ int main(int argc, char* argv[])
 				}
 				flag = YES;
 			}
-			if ((*ptr < 'a' || *ptr > 'z') && (*ptr < 'A' || *ptr > 'Z'))
+			if ((*ptr < 'a' || *ptr > 'z') && (*ptr < 'A' || *ptr > 'Z')&&*ptr!=' ')
 			{
 				flag = NO;
 			}
 			ptr++;//передвижение указателя
 		}
+		flag = YES;
 		if (cnt > cnt_2)// сравнения строк
 		{
 			cnt_2 = cnt;
