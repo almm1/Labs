@@ -6,13 +6,13 @@
 #define NO 0
 #define MAXLINE 1024
 
-int main()
+int main(int argc, char* argv[])
 {
 	FILE *fpin;
 	FILE *fpout;
 
 	char line[MAXLINE];
-	char filename[MAXLINE];
+	char filename[100] = {0};
 	char *ptr;
 	int cnt = 0;
 	int cnt_2 = 0;
@@ -20,9 +20,19 @@ int main()
 	int rez = 0;
 	int flag = YES;
 
-	fpin = fopen("test.txt", "a+");
-	if (fpin == NULL)
-		return 0;
+
+	if (argc == 2)
+		strcpy(filename, argv[1]);
+	else {
+	tr:
+		printf("Please enter a address file : ");
+		gets_s(filename);
+	}
+	if ((fpin = fopen(filename, "r")) == NULL) //Открытие файла для чтения 
+	{
+		printf("Cannot open input file.\n");
+		goto tr;
+	}
 
 	fpout = fopen("result.txt", "w+");
 	if (fpout == NULL)
