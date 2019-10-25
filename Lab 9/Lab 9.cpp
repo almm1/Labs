@@ -8,11 +8,11 @@
 
 int main(int argc, char* argv[])
 {
-	FILE *fpin;
+	FILE *fpin = NULL;
 	FILE *fpout;
 
 	char line[MAXLINE];
-	char filename[100] = {0}; // путь до файла
+	char filename[100] = { 0 }; // путь до файла
 	char *ptr;
 	int cnt = 0; //счетчик слов
 	int cnt_2 = 0;
@@ -23,16 +23,19 @@ int main(int argc, char* argv[])
 
 	if (argc == 2)
 		strcpy(filename, argv[1]);
-	else {
-	tr:
-		printf("Please enter a address file : ");
-		gets_s(filename);
-	}
-	if ((fpin = fopen(filename, "r")) == NULL) //Открытие файла для чтения 
+	else
 	{
-		printf("Cannot open input file.\n");
-		goto tr;
-	}
+		do
+		{
+			printf("Please enter a address file : ");
+			gets_s(filename);
+		
+			if ((fpin = fopen(filename, "r")) == NULL) //Открытие файла для чтения 
+			{
+				printf("Cannot open input file.\n");
+			}
+		} while (fpin == NULL);
+	} 
 
 	fpout = fopen("result.txt", "w+");// результирующий файл
 	if (fpout == NULL)
