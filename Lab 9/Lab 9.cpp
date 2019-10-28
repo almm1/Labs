@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
 
 		while (*ptr != '\0')// до конца строки
 		{
-			if (*ptr == ' ')// до разделитель
+			if (*ptr == ' ' && *(ptr+1) != ' ')// до разделителя
 			{
 				if (flag == YES)
 				{
