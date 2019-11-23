@@ -4,54 +4,88 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define MAXLINE 100
+#define MAXLINE 150
 
-void replenishment(FILE *file)
-{
-	printf("- Пополнение базы данных -");
-	printf("");
-	printf("");
+
+
+FILE *file;
+
+void replenishment()
+{ 
+	file = fopen("base.txt", "r+");
+	char line[MAXLINE];
+	char destination[34] = { '\0' };
+	char time_d[5] = { '\0' };
+	char time_a[5] = { '\0' };
+	char price[10] = { '\0' };
+	char *ptr;
+	char *l;
+	int i = 0;
+	int flag = 0;
+	int cnt = 0;
+
+	printf("- Пополнение базы данных -\n");
+	printf("Введите пункт прилета: ");
+	i = 4;
+	scanf("%s", &destination);
+	ptr = destination;
+
+	do
+	{
+		l = fgets(line, MAXLINE, file);
+	} while (*l == ' ');
+
+	while (*ptr != '\0')
+	{
+		*(l + i) = *ptr;
+		*(l++)+i;
+		*ptr++;
+	}
+
+	do
+	{
+		printf("\nВведите время вылета в фромате '00:00': ");
+		scanf("%s", &time_d);
+		ptr = time_d;
+			if ((*ptr >= '0' && *ptr <= '9') && (*(ptr+1) >= '0' && *(ptr+1) <= '9') && (*(ptr+3) >= '0' && *(ptr+3) <= '9') && (*(ptr+4) >= '0' && *(ptr+4) <= '9') && (*(ptr+2) == ':'))
+			{
+				flag = 1;
+			}
+			else
+			printf("Неверный формат\n");
+	} while (flag==0);
+	i = 40;
+	while (*ptr != '\0')
+	{
+		*(l + i) = *ptr;
+		*(l++) + i;
+		*ptr++;
+	}
+
 	printf("");
 }
 
-void editing(FILE *file)
+void editing()
 {
 
 }
 
-void deleting(FILE *file)
+void deleting()
 {
 
 }
 
-int main(int argc, char* argv[])
+int main()
 {
 	setlocale(LC_ALL, "Russian");
 
 	FILE *f = NULL; 
 
-	char filename[100] = { 0 };
-	char *ptr;
-	char line[MAXLINE];
 	int number;
 
-	if (argc == 2)
-		strcpy(filename, argv[1]);
-	else
-	{
-		do
-		{
-			printf("Please enter a address file : ");
-			gets_s(filename);
 
-			if ((f = fopen(filename, "r+")) == NULL) //Открытие файла для чтения 
-			{
-				printf("Cannot open input file.\n");
-			}
-		} while (f == NULL);
-	}
-
-	printf("\nВыберете действие: \n");
+	system("CLS");
+	printf("Выберете действие: \n");
 	printf("1 - Пополнение базы \n");
 	printf("2 - Редактирование базы \n");
 	printf("3 - Удаление записей \n");
@@ -65,15 +99,16 @@ int main(int argc, char* argv[])
 	switch (number)
 	{
 	case 1:
-		replenishment(f);
+	//	fflush(f);
+		replenishment();
 		system("CLS");
 		break;
 	case 2:
-		editing(f);
+		editing();
 		system("CLS");
 		break;
 	case 3:
-		deleting(f);
+		deleting();
 		system("CLS");
 		break;
 	case 4:
