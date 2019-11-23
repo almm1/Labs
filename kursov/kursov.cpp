@@ -1,21 +1,79 @@
-﻿// kursov.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿#include "pch.h"
+#include <stdio.h>
+#include <locale.h>
+#include <string.h>
 
-#include "pch.h"
-#include <iostream>
+#define MAXLINE 1024
 
-int main()
+void replenishment()
 {
-    std::cout << "Hello World!\n"; 
+
 }
 
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
+void editing()
+{
 
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
+}
+
+void deleting()
+{
+
+}
+
+int main(int argc, char* argv[])
+{
+	setlocale(LC_ALL, "Russian");
+
+	FILE *f = NULL; 
+
+	char filename[100] = { 0 };
+	char *ptr;
+	char line[MAXLINE];
+	int number;
+
+	if (argc == 2)
+		strcpy(filename, argv[1]);
+	else
+	{
+		do
+		{
+			printf("Please enter a address file : ");
+			gets_s(filename);
+
+			if ((f = fopen(filename, "r+")) == NULL) //Открытие файла для чтения 
+			{
+				printf("Cannot open input file.\n");
+			}
+		} while (f == NULL);
+	}
+
+	printf("Выберете действие: \n");
+	printf("1 - Пополнение базы \n");
+	printf("2 - Редактирование базы \n");
+	printf("3 - Удаление записей \n");
+	printf("4 - Подбор маршрута с наименьшим временем ожидания при пересадке \n");
+	printf("5 - Подбор маршрута с наименьшей стоимостью \n");
+	scanf("%d", &number);
+
+	if ((number < 1) && (number > 5))
+		printf("Ошибка. Выбрано несуществующее действие");
+	switch (number)
+	{
+	case 1:
+		replenishment();
+		break;
+	case 2:
+		editing();
+		break;
+	case 3:
+		deleting();
+		break;
+	case 4:
+		printf("в разработке");
+		break;
+	case 5:
+		printf("в разработке");
+		break;
+	}
+	return 0;
+}
