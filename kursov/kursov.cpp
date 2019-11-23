@@ -15,25 +15,26 @@ void replenishment()
 	file = fopen("base.txt", "r+");
 	char line[MAXLINE];
 	char destination[34] = { '\0' };
-	char time_d[5] = { '\0' };
-	char time_a[5] = { '\0' };
-	char price[10] = { '\0' };
+	char time_d[6] = { '\0' };
+	char time_a[6] = { '\0' };
+	char price[11] = { '\0' };
 	char *ptr;
 	char *l;
 	int i = 0;
 	int flag = 0;
 	int cnt = 0;
 
-	printf("- Пополнение базы данных -\n");
-	printf("Введите пункт прилета: ");
-	i = 4;
-	scanf("%s", &destination);
-	ptr = destination;
-
 	do
 	{
 		l = fgets(line, MAXLINE, file);
 	} while (*l == ' ');
+
+	printf("- Пополнение базы данных -\n");
+	printf("Введите пункт прилета: ");	
+	scanf("%s", &destination);
+	i = 4;
+	ptr = destination;
+	
 
 	while (*ptr != '\0')
 	{
@@ -54,7 +55,7 @@ void replenishment()
 			else
 			printf("Неверный формат\n");
 	} while (flag==0);
-	i = 40;
+	i = 33;
 	while (*ptr != '\0')
 	{
 		*(l + i) = *ptr;
@@ -62,7 +63,44 @@ void replenishment()
 		*ptr++;
 	}
 
-	printf("");
+	do
+	{
+		printf("\nВведите время прилета в фромате '00:00': ");
+		scanf("%s", &time_a);
+		ptr = time_a;
+		if ((*ptr >= '0' && *ptr <= '9') && (*(ptr + 1) >= '0' && *(ptr + 1) <= '9') && (*(ptr + 3) >= '0' && *(ptr + 3) <= '9') && (*(ptr + 4) >= '0' && *(ptr + 4) <= '9') && (*(ptr + 2) == ':'))
+		{
+			flag = 1;
+		}
+		else
+			printf("Неверный формат\n");
+	} while (flag == 0);
+	i = 44;
+	while (*ptr != '\0')
+	{
+		*(l + i) = *ptr;
+		*(l++) + i;
+		*ptr++;
+	}
+
+	printf("\nВведите стоимость билета: ");
+	scanf("%s", &price);
+	ptr = price;
+	i = 55;
+
+	while (*ptr != '\0')
+	{
+		*(l + i) = *ptr;
+		*(l++) + i;
+		*ptr++;
+	}
+	*(l + i + 1) = ' ';
+	*(l + i + 2) = 'r';
+	*(l + i + 3) = 'u';
+	*(l + i + 4) = 'b';
+
+	fseek(file, 88, SEEK_SET);
+	fputs(line, file);
 }
 
 void editing()
@@ -99,7 +137,6 @@ int main()
 	switch (number)
 	{
 	case 1:
-	//	fflush(f);
 		replenishment();
 		system("CLS");
 		break;
