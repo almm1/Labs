@@ -6,14 +6,13 @@
 
 #define MAXLINE 150
 
-
-
 FILE *file;
 
 void replenishment()
 { 
 	file = fopen("base.txt", "r+");
 	char line[MAXLINE];
+	char blank[87] = {NULL};
 	char destination[34] = { '\0' };
 	char time_d[6] = { '\0' };
 	char time_a[6] = { '\0' };
@@ -24,10 +23,19 @@ void replenishment()
 	int flag = 0;
 	int cnt = 0;
 
-	do
+	system("CLS");
+
+	while (flag == 0)
 	{
+		cnt++;
 		l = fgets(line, MAXLINE, file);
-	} while (*l == ' ');
+		if (*l != ' ' && *(l + 4) == ' ')
+			flag = 1;
+		else
+			flag = 0;
+	}
+	cnt--;
+	flag = 0;
 
 	printf("- Пополнение базы данных -\n");
 	printf("Введите пункт прилета: ");	
@@ -49,9 +57,7 @@ void replenishment()
 		scanf("%s", &time_d);
 		ptr = time_d;
 			if ((*ptr >= '0' && *ptr <= '9') && (*(ptr+1) >= '0' && *(ptr+1) <= '9') && (*(ptr+3) >= '0' && *(ptr+3) <= '9') && (*(ptr+4) >= '0' && *(ptr+4) <= '9') && (*(ptr+2) == ':'))
-			{
-				flag = 1;
-			}
+				flag = 1;			
 			else
 			printf("Неверный формат\n");
 	} while (flag==0);
@@ -69,9 +75,7 @@ void replenishment()
 		scanf("%s", &time_a);
 		ptr = time_a;
 		if ((*ptr >= '0' && *ptr <= '9') && (*(ptr + 1) >= '0' && *(ptr + 1) <= '9') && (*(ptr + 3) >= '0' && *(ptr + 3) <= '9') && (*(ptr + 4) >= '0' && *(ptr + 4) <= '9') && (*(ptr + 2) == ':'))
-		{
 			flag = 1;
-		}
 		else
 			printf("Неверный формат\n");
 	} while (flag == 0);
@@ -99,12 +103,41 @@ void replenishment()
 	*(l + i + 3) = 'u';
 	*(l + i + 4) = 'b';
 
-	fseek(file, 88, SEEK_SET);
+	fseek(file, 88*cnt, SEEK_SET);
+	fputs(blank, file);
+	fseek(file, 88*cnt, SEEK_SET);
 	fputs(line, file);
+	fclose(file);
 }
 
 void editing()
 {
+	file = fopen("base.txt", "r+");
+	char line[MAXLINE];
+	char blank[87] = { NULL };
+	char destination[34] = { '\0' };
+	char time_d[6] = { '\0' };
+	char time_a[6] = { '\0' };
+	char price[11] = { '\0' };
+	char *ptr;
+	char *l;
+	char flight[3] = {'\0'};
+
+	system("CLS");
+
+	printf("- Редактирование базы данных -\n");
+	printf("Введите номер рейса для редактирования: ");
+	scanf("%s", &flight);
+
+	l = fgets(line, MAXLINE, file);
+	l = fgets(line, MAXLINE, file);
+
+	for (int i = 0; i < 3; i++)
+	{
+
+	}
+
+
 
 }
 
@@ -121,8 +154,6 @@ int main()
 
 	int number;
 
-
-	system("CLS");
 	printf("Выберете действие: \n");
 	printf("1 - Пополнение базы \n");
 	printf("2 - Редактирование базы \n");
@@ -138,15 +169,12 @@ int main()
 	{
 	case 1:
 		replenishment();
-		system("CLS");
 		break;
 	case 2:
 		editing();
-		system("CLS");
 		break;
 	case 3:
 		deleting();
-		system("CLS");
 		break;
 	case 4:
 		printf("в разработке");
