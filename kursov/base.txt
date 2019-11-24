@@ -1,5 +1,5 @@
    |           Destination           |Time departures| Time Arrivals |     Price     |
-1  |penza                            |22:10          |22:10          |160            |
+1  |moskva                           |22:30          |22:40          |175            |
 2  |                                 |               |               |               |
 3  |                                 |               |               |               |
 4  |                                 |               |               |               |
