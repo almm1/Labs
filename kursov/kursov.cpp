@@ -275,6 +275,52 @@ void editing()
 
 void deleting()
 {
+	file = fopen("base.txt", "r+");
+	char line[MAXLINE];
+	char blank[87] = { NULL };
+	char destination[34] = { '\0' };
+	char time_d[6] = { '\0' };
+	char time_a[6] = { '\0' };
+	char price[11] = { '\0' };
+	char *l;
+	char *ptr;
+	int flag = 0;
+	int flight = 0;
+	int n = 0;
+	int number = 0;
+
+	system("CLS");
+
+	l = fgets(line, MAXLINE, file);
+
+	printf("- Удаление записей -\n");
+	
+		printf("Введите номер рейса который требуется удалить: ");
+		scanf("%d", &flight);
+
+		for (int i = 0; i < flight; i++)
+		{
+			l = fgets(line, MAXLINE, file);
+		}
+		if (l == NULL)
+		{
+			printf("Error!");
+		}
+		put(line, 4);
+		put(line, 38);
+		put(line, 54);
+		put(line, 70);
+
+		fseek(file, 88 * flight, SEEK_SET);
+		fputs(line, file);
+
+		fclose(file);
+}
+
+
+
+void min_price();
+{
 
 }
 
@@ -317,7 +363,7 @@ int main()
 			printf("в разработке");
 			break;
 		case 5:
-			printf("в разработке");
+			min_price();
 			break;
 		}
 	} while (number != 0);
