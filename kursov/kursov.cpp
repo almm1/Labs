@@ -277,17 +277,8 @@ void deleting()
 {
 	file = fopen("base.txt", "r+");
 	char line[MAXLINE];
-	char blank[87] = { NULL };
-	char destination[34] = { '\0' };
-	char time_d[6] = { '\0' };
-	char time_a[6] = { '\0' };
-	char price[11] = { '\0' };
 	char *l;
-	char *ptr;
-	int flag = 0;
 	int flight = 0;
-	int n = 0;
-	int number = 0;
 
 	system("CLS");
 
@@ -299,9 +290,8 @@ void deleting()
 		scanf("%d", &flight);
 
 		for (int i = 0; i < flight; i++)
-		{
 			l = fgets(line, MAXLINE, file);
-		}
+
 		if (l == NULL)
 		{
 			printf("Error!");
@@ -319,9 +309,55 @@ void deleting()
 
 
 
-void min_price();
+void minPrice()
 {
+	file = fopen("base.txt", "r+");
+	char line[MAXLINE];
+	char *l;
+	char price[11] = { '\0' };
+	char *ptr;
+	int a = 0, sum = 10000000;
+	int cnt = 0;
+	int string = 0;
 
+	l = fgets(line, MAXLINE, file);
+	ptr = price;
+
+	system("CLS");
+
+	while (!feof(file))
+	{
+	
+		l = fgets(line, MAXLINE, file);
+		cnt++;
+
+		if (l == NULL)
+			break;
+
+		for (int i = 0; *(l + i+70) != ' '; i++)
+			*(ptr + i) = *(l + i+70);
+
+		a = atoi(price);
+
+		if (a < sum)
+		{
+			sum = a;
+			string = cnt;
+		}
+		zero(price);
+	}
+	rewind(file);
+
+	fgets(line, MAXLINE, file);
+	printf("%s", line);
+
+	for(int i = 0; i<string;i++)
+		fgets(line, MAXLINE, file);
+
+	printf("%s", line);
+	getchar();
+	getchar();
+	fclose(file);
 }
 
 int main()
@@ -363,7 +399,7 @@ int main()
 			printf("в разработке");
 			break;
 		case 5:
-			min_price();
+			minPrice();
 			break;
 		}
 	} while (number != 0);
