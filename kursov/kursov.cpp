@@ -177,7 +177,8 @@ void editing()
 	printf("1 - Пункт прилета(Destination) \n");
 	printf("2 - Время вылета() \n");
 	printf("3 - Время прилета() \n");
-	printf("4 - Стоимость() \n\n");
+	printf("4 - Стоимость() \n");
+	printf("0 - Назад \n");
 	scanf("\n%d", &number);
 
 	if ((number < 1) && (number > 4))
@@ -225,6 +226,7 @@ void editing()
 		break;
 	case 3:
 		system("CLS");
+
 		n = 54;
 		put(line, n);
 		do
@@ -246,31 +248,28 @@ void editing()
 		break;
 	case 4:
 		system("CLS");
+
 		n = 70;
 		put(line, n);
 		printf("Введите новую стоимость: ");
 		scanf("%s", &price);
+
 		for (int i = 0; price[i] != '\0'; i++)
 		{
 			*(l + n + i) = price[i];
 		}
+
 		*(l + n + 1) = ' ';
 		*(l + n + 2) = 'r';
 		*(l + n + 3) = 'u';
 		*(l + n + 4) = 'b';
 		break;
-
-		fseek(file, 88 * flight, SEEK_SET);
-		fputs(blank, file);
-		fseek(file, 88 * flight, SEEK_SET);
-		fputs(line, file);
-		fclose(file);
 	}
 	fseek(file, 88 * flight, SEEK_SET);
 	fputs(blank, file);
 	fseek(file, 88 * flight, SEEK_SET);
 	fputs(line, file);
-
+	
 	fclose(file);
 }
 
@@ -287,36 +286,40 @@ int main()
 
 	int number;
 
-	printf("Выберете действие: \n");
-	printf("1 - Пополнение базы \n");
-	printf("2 - Редактирование базы \n");
-	printf("3 - Удаление записей \n");
-	printf("4 - Подбор маршрута с наименьшим временем ожидания при пересадке \n");
-	printf("5 - Подбор маршрута с наименьшей стоимостью \n");
-	printf("0 - Выход \n\n");
-	scanf("%d", &number);
+	do {
+		system("CLS");
+		printf("Выберете действие: \n");
+		printf("1 - Пополнение базы \n");
+		printf("2 - Редактирование базы \n");
+		printf("3 - Удаление записей \n");
+		printf("4 - Подбор маршрута с наименьшим временем ожидания при пересадке \n");
+		printf("5 - Подбор маршрута с наименьшей стоимостью \n");
+		printf("0 - Выход \n\n");
+		scanf("%d", &number);
 
-	if ((number < 0) && (number > 5))
-		printf("Ошибка. Выбрано несуществующее действие");
-	switch (number)
-	{
-	case 1:
-		replenishment();
-		break;
-	case 2:
-		editing();
-		break;
-	case 3:
-		deleting();
-		break;
-	case 4:
-		printf("в разработке");
-		break;
-	case 5:
-		printf("в разработке");
-		break;
-	case 0:
-		return 0;
-	}
+		if ((number < 0) && (number > 5))
+		{
+			printf("Ошибка. Выбрано несуществующее действие");
+		}
+
+		switch (number)
+		{
+		case 1:
+			replenishment();
+			break;
+		case 2:
+			editing();
+			break;
+		case 3:
+			deleting();
+			break;
+		case 4:
+			printf("в разработке");
+			break;
+		case 5:
+			printf("в разработке");
+			break;
+		}
+	} while (number != 0);
 	return 0;
 }
