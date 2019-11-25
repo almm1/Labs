@@ -76,7 +76,7 @@ void replenishment()
 			printf("Неверный формат\n");
 	} while (flag==0);
 	flag = 0;
-	i = 33;
+	i = 32;
 	while (*ptr != '\0')
 	{
 		*(l + i) = *ptr;
@@ -95,7 +95,7 @@ void replenishment()
 			printf("Неверный формат\n");
 	} while (flag == 0);
 	flag = 0;
-	i = 44;
+	i = 43;
 	while (*ptr != '\0')
 	{
 		*(l + i) = *ptr;
@@ -106,7 +106,7 @@ void replenishment()
 	printf("\nВведите стоимость билета: ");
 	scanf("%s", &price);
 	ptr = price;
-	i = 55;
+	i = 54;
 
 	while (*ptr != '\0')
 	{
@@ -334,15 +334,20 @@ void minPrice()
 		if (l == NULL)
 			break;
 
-		for (int i = 0; *(l + i+70) != ' '; i++)
-			*(ptr + i) = *(l + i+70);
-
-		a = atoi(price);
-
-		if (a < sum)
+		if (line[4] != ' ')
 		{
-			sum = a;
-			string = cnt;
+			for (int i = 0; *(l + i + 70) != ' '; i++)
+			{
+				*(ptr + i) = *(l + i + 70);
+			}
+
+			a = atoi(price);
+
+			if (a < sum)
+			{
+				sum = a;
+				string = cnt;
+			}
 		}
 		zero(price);
 	}
@@ -364,8 +369,6 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 
-	FILE *f = NULL; 
-
 	int number;
 
 	do {
@@ -379,7 +382,7 @@ int main()
 		printf("0 - Выход \n\n");
 		scanf("%d", &number);
 
-		if ((number < 0) && (number > 5))
+		if ((number < 0) || (number > 5))
 		{
 			printf("Ошибка. Выбрано несуществующее действие");
 		}
