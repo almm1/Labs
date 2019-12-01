@@ -331,7 +331,27 @@ g:	flag = 0;
 
 void deleting(struct flight * reys)
 {
+	int tr = 0;
+	int flag = 0;
 	system("CLS");
+	printf("- Удаление -\n");
+	do
+	{
+		printf("Введите номер рейса для удаления: ");
+		scanf("%d", &tr);
+		if (tr == 0)
+			goto g;
+		if (tr > 0)
+			flag = 1;
+		else
+			flag = 0;
+	} while (flag == 0);
+	flag = 0;
+	zero(reys[tr - 1].departures);
+	zero(reys[tr - 1].arrivals);
+	zero(reys[tr - 1].time_d);
+	zero(reys[tr - 1].time_a);
+g:	reys[tr - 1].price = 0;
 }
 
 
