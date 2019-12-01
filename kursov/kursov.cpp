@@ -40,6 +40,7 @@ void read(struct flight * reys)
 	char number[4] = { 0 };
 	char price[14] = { 0 };
 	int p = 0, n = 0;
+	rewind(file);
 	fgets(line, MAXLINE, file);
 	fgets(line, MAXLINE, file);
 
@@ -73,11 +74,15 @@ void read(struct flight * reys)
 	fclose(file);
 }
 
-void load(struct flight * reys, int str)
+/*void load(struct flight * reys, int str)
 {
-	file = fopen("base.txt", "w+");
+	file = fopen("base.txt", "r+");
+	
 	fseek(file, str*sizeline, SEEK_SET);
-}
+
+	for (int i = posDep; reys[str - 1].departures[i - posDep] != '\0'; i++)
+		fprintf(file, "%d", reys[str - 1].number);
+}*/
 
 int replenishment(struct flight * reys)
 {
@@ -171,19 +176,169 @@ int replenishment(struct flight * reys)
 
 void editing(struct flight * reys)
 {
-	
+	system("CLS");
+	int tr = 0;
+	int n = 0;
+	int flag = 0;
+
+	do
+	{
+		system("CLS");
+		printf("- Редактирование базы данных -\n");
+		do
+		{
+			do
+			{
+				printf("Введите номер рейса для редактирования: \n");
+				scanf("%d", &tr);
+				if (tr == 0)
+					goto g;
+				if (tr > 0)
+					flag = 1;
+				else
+					flag = 0;
+			} while (flag == 0);
+			flag = 0;
+			if (reys[tr - 1].departures[0] == 0)
+			{
+				printf("Ошибка. Рейса с данным номером не существует \n");
+				flag = 0;
+			}
+			else
+				flag = 1;
+		} while (flag == 0);
+		flag = 0;
+		do
+		{
+		a:
+			system("CLS");
+			printf("Выберете что требуется изменить: \n");
+			printf("1 - Пункт вылета \n");
+			printf("2 - Пункт прилета \n");
+			printf("3 - Время вылета() \n");
+			printf("4 - Время прилета() \n");
+			printf("5 - Стоимость() \n");
+			printf("0 - Назад \n\n");
+			scanf("%d", &n);
+			if (n < 0 || n>5)
+			{
+				printf("Ошибка. Выбрано не существующее действие");
+				goto a;
+			}
+			switch (n)
+			{
+			case 1:
+				system("CLS");
+				zero(reys[tr - 1].departures);
+				printf("Введите новый пункт вылета: ");
+				scanf("%s", &reys[tr - 1].departures);
+				break;
+			case 2:
+				system("CLS");
+				zero(reys[tr - 1].arrivals);
+				printf("Введите новый пункт прилета: ");
+				scanf("%s", &reys[tr - 1].arrivals);
+				break;
+			case 3:
+				system("CLS");
+				zero(reys[tr - 1].time_d);
+				do
+				{
+					printf("Введите новое время вылета в фромате '00:00': ");
+					scanf("%s", &reys[tr - 1].time_d);
+					if ((reys[tr - 1].time_d[0] >= '0' && reys[tr - 1].time_d[0] <= '2') &&
+						(reys[tr - 1].time_d[1] >= '0'&&reys[tr - 1].time_d[1] <= '9') &&
+						(reys[tr - 1].time_d[2] == ':') &&
+						(reys[tr - 1].time_d[3] >= '0'&&reys[tr - 1].time_d[3] <= '5') &&
+						(reys[tr - 1].time_d[4] >= '0'&&reys[tr - 1].time_d[4] <= '9'))
+					{
+						flag = 1;
+						if (reys[tr - 1].time_d[0] == '2')
+						{
+							if ((reys[tr - 1].time_d[1] >= '0' && reys[tr - 1].time_d[1] <= '3'))
+								flag = 1;
+							else
+							{
+								flag = 0;
+								printf("Неверный формат\n");
+							}
+						}
+					}
+					else
+					{
+						flag = 0;
+						printf("Неверный формат\n");
+					}
+				} while (flag == 0);
+				flag = 0;
+				break;
+			case 4:
+				system("CLS");
+				zero(reys[tr - 1].time_a);
+				do
+				{
+					printf("Введите новое время прилета в фромате '00:00': ");
+					scanf("%s", &reys[tr - 1].time_a);
+					if ((reys[tr - 1].time_a[0] >= '0' && reys[tr - 1].time_a[0] <= '2') &&
+						(reys[tr - 1].time_a[1] >= '0'&&reys[tr - 1].time_a[1] <= '9') &&
+						(reys[tr - 1].time_a[2] == ':') &&
+						(reys[tr - 1].time_a[3] >= '0'&&reys[tr - 1].time_a[3] <= '5') &&
+						(reys[tr - 1].time_a[4] >= '0'&&reys[tr - 1].time_a[4] <= '9'))
+					{
+						flag = 1;
+						if (reys[tr - 1].time_a[0] == '2')
+						{
+							if ((reys[tr - 1].time_a[1] >= '0' && reys[tr - 1].time_a[1] <= '3'))
+								flag = 1;
+							else
+							{
+								flag = 0;
+								printf("Неверный формат\n");
+							}
+						}
+					}
+					else
+					{
+						flag = 0;
+						printf("Неверный формат\n");
+					}
+				} while (flag == 0);
+				flag = 0;
+				break;
+			case 5:
+				system("CLS");
+				reys[tr - 1].price = 0;
+				do
+				{
+					printf("Введите стоимость: ");
+					scanf("%d", &reys[tr - 1].price);
+					if (reys[tr - 1].price > 0)
+						flag = 1;
+					else
+					{
+						printf("Ошибка.!");
+						flag = 0;
+					}
+				} while (flag == 0);
+				flag = 0;
+				break;
+			}
+
+		} while (n != 0);
+	} while (flag == 0);
+g:	flag = 0;
 }
 
 void deleting(struct flight * reys)
 {
-	
+	system("CLS");
 }
 
 
 
 void minPrice(struct flight * reys)
 {
-	
+	system("CLS");
 }
 
 int main()
@@ -214,7 +369,7 @@ int main()
 		{
 		case 1:
 			str=replenishment(reys);
-			load(reys, str);
+			//load(reys, str);
 			break;
 		case 2:
 			editing(reys);
