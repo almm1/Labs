@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
 		if (ptr == NULL)
 			break;
 
-		while (cnt != 3)
+		while (cnt != 10)
 		{
 			for (int i = z; *(ptr + i) != '\0'; i++)//рассматириваем строку
 			{
