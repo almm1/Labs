@@ -75,58 +75,71 @@ int main(int argc, char* argv[])
 	}
 	n = 0;
 	cnt = 0;
+	int z = 0;
 	flag = 0;
+
 	while (!feof(fpin))
 	{
+		found = 0;
+		begin = 1;
+		end = 1;
+		flag = 0;
+		cnt = 0;
+		z = 0;
+
 		ptr = fgets(line, 1024, fpin);
 
 		if (ptr == NULL)
 			break;
 
-		for (int i = 0; *(ptr+i)!='\0'; i++)
+		while (cnt != 3)
 		{
-			zero(word);
-			for (n = 0; (*(ptr + i) >= 'a' && *(ptr + i) <= 'z'); n++)
+			for (int i = z; *(ptr + i) != '\0'; i++)
 			{
-				if (flag == 0)
+				zero(word);
+				for (n = 0; (*(ptr + i) >= 'a' && *(ptr + i) <= 'z'); n++)
 				{
-					flag = 1;
-					begin = i;
-				}
+					if (flag == 0)
+					{
+						flag = 1;
+						begin = i;
+					}
 					*(str + n) = *(ptr + i);
 					i++;
 					end = i;
-			}
-			if (flag == 1)
-			{
-				flag = 0;
-				for (int j = 0; j < 29; j++)
+				}
+				if (flag == 1)
 				{
-					if (strcmp(word, &string[pos_w[j]]) == 0)
+					flag = 0;
+					for (int j = 0; j < 29; j++)
 					{
-						found = 1;
-						break;
+						if (strcmp(word, &string[pos_w[j]]) == 0)
+						{
+							found = 1;
+							break;
+						}
 					}
 				}
+				if (found == 1)
+					break;
 			}
-			if (found == 1)
-				break;
+			SetConsoleTextAttribute(hConsoleHandle, 15);
+			for (int i = z; i<end; i++)
+			{
+				if (found == 1)
+				{
+					if (i == begin)
+						SetConsoleTextAttribute(hConsoleHandle, 10);
+				}
+				printf("%c", *(ptr + i));
+			}
+			z = end;
+			cnt++;
+			found = 0;
+			flag = 0;
 		}
 		SetConsoleTextAttribute(hConsoleHandle, 15);
-		for (int i = 0; *(ptr + i) != '\0'; i++)
-		{
-			if (found == 1)
-			{
-				if (i == begin)
-					SetConsoleTextAttribute(hConsoleHandle, 10);
-				if (i == end)
-					SetConsoleTextAttribute(hConsoleHandle, 15);
-			}
-			printf("%c", *(ptr + i));
-		}
-		found = 0;
-		begin = 1;
-		end = 1;
-		flag = 0;
+		for(int i = end; *(ptr+i)!='\0';i++)
+			printf("%c", *(ptr + i));	
 	}
 }
