@@ -1,26 +1,37 @@
 #include "pch.h"
-#include <iostream>
 #include <stdio.h>
+#include <string.h> 
+#include <windows.h>
 
-#define YES 1
-#define NO 0
-#define MAXLINE 1024
+void zero(char str[])
+{
+	for (int i = 0; i < 30; i++)
+		str[i] = '\0';
+}
 
 int main(int argc, char* argv[])
 {
 	FILE *fpin = NULL;
-	FILE *fpout;
+	FILE *sl;
 
-	char line[MAXLINE];
+	HANDLE hConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+
 	char filename[100] = { 0 }; // путь до файла
+	char line[1024];
+	char string[184];
+	int pos_w[30];
+	char word[30];
+	int cnt = 0;
+	int n = 0;
 	char *ptr;
-	int cnt = 0; //счетчик слов
-	int cnt_2 = 0;
-	int numberStr = 0; //номер большой строки
-	int rez = 0; //резерв
-	int flag = YES; //признак лишних символов
+	char *p=string;
+	int flag = 0;
+	int begin = 1;
+	int end = 1;
+	char *str=word;
+	int found = 0;
 
-
+/*
 	if (argc == 2)
 		strcpy(filename, argv[1]);
 	else
@@ -29,64 +40,93 @@ int main(int argc, char* argv[])
 		{
 			printf("Please enter a address file : ");
 			gets_s(filename);
-		
+
 			if ((fpin = fopen(filename, "r")) == NULL) //Открытие файла для чтения 
 			{
 				printf("Cannot open input file.\n");
 			}
 		} while (fpin == NULL);
-	} 
+	}*/
 
-	fpout = fopen("result.txt", "w+");// результирующий файл
-	if (fpout == NULL)
+	fpin = fopen("test.txt", "r");// результирующий файл
+	if (fpin == NULL)
 		return 0;
 
-	while (!feof(fpin))//пока не конец файла
+	sl = fopen("slova.txt", "r");
+	if (sl == NULL)
+		return 0;
+
+
+	while (!feof(sl))
 	{
-		ptr = fgets(line, MAXLINE, fpin);// считывание строки из файла
-		numberStr++;
-
-		if (ptr == NULL)    
-		break;
-
-		while (*ptr != '\0')// до конца строки
+		*p=fgetc(sl);
+		if (*p == ' ')
 		{
-			if (*ptr == ' ' && *(ptr+1) != ' ')// до разделителя
-			{
-				if (flag == YES)
-				{
-					cnt++;//счетчик слов
-				}
-				flag = YES;
-			}
-			if ((*ptr < 'a' || *ptr > 'z') && (*ptr < 'A' || *ptr > 'Z')&&*ptr!=' ')
-			{
-				flag = NO;
-			}
-			ptr++;//передвижение указателя
+			*p = '\0';
+			flag = 1;
 		}
-		flag = YES;
-		if (cnt > cnt_2)// сравнения строк
+		else if (flag != 0)
 		{
-			cnt_2 = cnt;
-			rez = numberStr;//запись номера строки в резерв
+			pos_w[n++]= cnt;
+			flag = 0;
 		}
-		cnt = 0;//обнуления счетчика слов
+		cnt++;
+		*p++;
 	}
-
-	numberStr = 0;// обнуление позиции строки
-	rewind(fpin);// перемещение в начало файла
-	
+	n = 0;
+	cnt = 0;
+	flag = 0;
 	while (!feof(fpin))
 	{
-		ptr = fgets(line, MAXLINE, fpin);
-		numberStr++;
+		ptr = fgets(line, 1024, fpin);
 
-		if (rez != numberStr)
-		fputs(line, fpout);// запись в результирующий файл
+		if (ptr == NULL)
+			break;
+
+		for (int i = 0; *(ptr+i)!='\0'; i++)
+		{
+			zero(word);
+			for (n = 0; (*(ptr + i) >= 'a' && *(ptr + i) <= 'z'); n++)
+			{
+				if (flag == 0)
+				{
+					flag = 1;
+					begin = i;
+				}
+					*(str + n) = *(ptr + i);
+					i++;
+					end = i;
+			}
+			if (flag == 1)
+			{
+				flag = 0;
+				for (int j = 0; j < 29; j++)
+				{
+					if (strcmp(word, &string[pos_w[j]]) == 0)
+					{
+						found = 1;
+						break;
+					}
+				}
+			}
+			if (found == 1)
+				break;
+		}
+		SetConsoleTextAttribute(hConsoleHandle, 15);
+		for (int i = 0; *(ptr + i) != '\0'; i++)
+		{
+			if (found == 1)
+			{
+				if (i == begin)
+					SetConsoleTextAttribute(hConsoleHandle, 10);
+				if (i == end)
+					SetConsoleTextAttribute(hConsoleHandle, 15);
+			}
+			printf("%c", *(ptr + i));
+		}
+		found = 0;
+		begin = 1;
+		end = 1;
+		flag = 0;
 	}
-	rez = 0;
-	fclose(fpin);  //закрытие
-	fclose(fpout); //файлов
-	return 0;
 }

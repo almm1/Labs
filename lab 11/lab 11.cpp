@@ -3,6 +3,11 @@
 #include <string.h> 
 #include <windows.h>
 
+void zero(char str[])
+{
+	for (int i = 0; i < 30; i++)
+		str[i] = '\0';
+}
 
 int main(int argc, char* argv[])
 {
@@ -21,7 +26,10 @@ int main(int argc, char* argv[])
 	char *ptr;
 	char *p=string;
 	int flag = 0;
+	int begin = 1;
+	int end = 1;
 	char *str=word;
+	int found = 0;
 
 /*
 	if (argc == 2)
@@ -75,18 +83,19 @@ int main(int argc, char* argv[])
 		if (ptr == NULL)
 			break;
 
-		for (int i = 0; *(ptr + i) != '\0'; i++)
+		for (int i = 0; *(ptr+i)!='\0'; i++)
 		{
-			SetConsoleTextAttribute(hConsoleHandle, 15);
+			zero(word);
 			for (n = 0; (*(ptr + i) >= 'a' && *(ptr + i) <= 'z'); n++)
 			{
 				if (flag == 0)
 				{
 					flag = 1;
-					cnt = i;
+					begin = i;
 				}
 					*(str + n) = *(ptr + i);
 					i++;
+					end = i;
 			}
 			if (flag == 1)
 			{
@@ -94,10 +103,30 @@ int main(int argc, char* argv[])
 				for (int j = 0; j < 29; j++)
 				{
 					if (strcmp(word, &string[pos_w[j]]) == 0)
-						flag = 1;
+					{
+						found = 1;
+						break;
+					}
 				}
 			}
-
+			if (found == 1)
+				break;
 		}
+		SetConsoleTextAttribute(hConsoleHandle, 15);
+		for (int i = 0; *(ptr + i) != '\0'; i++)
+		{
+			if (found == 1)
+			{
+				if (i == begin)
+					SetConsoleTextAttribute(hConsoleHandle, 10);
+				if (i == end)
+					SetConsoleTextAttribute(hConsoleHandle, 15);
+			}
+			printf("%c", *(ptr + i));
+		}
+		found = 0;
+		begin = 1;
+		end = 1;
+		flag = 0;
 	}
 }
