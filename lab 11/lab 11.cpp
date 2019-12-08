@@ -17,13 +17,12 @@ int main(int argc, char* argv[])
 	HANDLE hConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	char filename[100] = { 0 }; // путь до файла
-	char line[1024];// строка для обработки
 	char string[184];//строка содержащая данные из файла "slova"
 	int pos_w[30]; //позиции первых символов в строке string
 	char word[30]; //строка для храния слов
 	int cnt = 0; 
 	int n = 0;
-	char *ptr;
+	char *ptr=0;
 	char *p=string;
 	int flag = 0;
 	int begin = 1;//позиция начала слова
@@ -31,7 +30,8 @@ int main(int argc, char* argv[])
 	char *str=word;
 	int z = 0;//запоминатель для конца слова
 	int found = 0;
-
+	int f_counter = 0;
+	char c=0;
 
 	if (argc == 2)
 		strcpy(filename, argv[1]);
@@ -84,9 +84,19 @@ int main(int argc, char* argv[])
 		flag = 0;
 		cnt = 0;
 		z = 0;
+		c = 1;
+		free(ptr);
+		f_counter = 0;
+		
+		while (c != '\n')
+		{
+			c = fgetc(fpin);
+			f_counter++;
+		}
 
-		ptr = fgets(line, 1024, fpin);//считывание строки из файла
-
+		fseek(fpin, -f_counter-1, SEEK_CUR);
+		ptr = (char*)malloc((f_counter+2) * sizeof(char));
+		fgets(ptr, f_counter+2, fpin);
 		if (ptr == NULL)
 			break;
 
@@ -140,4 +150,6 @@ int main(int argc, char* argv[])
 		for(int i = end; *(ptr+i)!='\0';i++)//вывод остатка слова
 			printf("%c", *(ptr + i));	
 	}
+	free(ptr);
+	return 0;
 }
