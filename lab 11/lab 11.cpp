@@ -29,9 +29,9 @@ int main(int argc, char* argv[])
 	int end = 1;//позиция конца слова
 	char *str=word;
 	int z = 0;//запоминатель для конца слова
-	int found = 0;
-	int f_counter = 0;
-	char c=0;
+	int found = 0;//признак совпадения слова с ключевым словом
+	int f_counter = 0;//считчик символов в строке
+	char c=0;// просто символ
 
 	if (argc == 2)
 		strcpy(filename, argv[1]);
