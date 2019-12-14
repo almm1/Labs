@@ -23,7 +23,10 @@ void editing(struct flight * reys);
 void deleting(struct flight * reys);
 void minPrice(struct flight * reys);
 void minTime(struct flight * reys);
+int counter_struct();
+void probel_line(char str[]);
 
+struct flight *fl;
 
 struct flight
 {
@@ -60,12 +63,30 @@ void probel_line(char str[])
 	str[149] = '\0';
 }
 
+int counter_struct()
+{
+	char line[MAXLINE];
+	char *ptr=line;
+	int i;
+	file = fopen("base.txt", "r");
+	fgets(line, MAXLINE, file);
+	fgets(line, MAXLINE, file);
+	for (i = 0; line[5] != ' '; i++)
+	{
+		if (ptr == NULL)
+			break;
+		ptr=fgets(line, MAXLINE, file);
+		
+	}
+	fclose(file);
+	return i;
+}
 
 void read(struct flight * reys)
 {
 	file = fopen("base.txt", "r");
 
-	char line[MAXLINE]; //= { 0 };
+	char line[MAXLINE];
 	char number[4] = { 0 };
 	char price[14] = { 0 };
 	int p = 0, n = 0;
@@ -146,6 +167,7 @@ void load(struct flight * reys)
 	}
 	zero(line);
 	fclose(file);
+	getchar();
 	getchar();
 }
 
@@ -419,8 +441,6 @@ void deleting(struct flight * reys)
 g: flag = 0;
 }
 
-
-
 void minPrice(struct flight * reys)
 {
 	system("CLS");
@@ -489,9 +509,12 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 	int number;
-	int str = 0;
+	int n;
+	//n=counter_struct();
+	//fl = (struct flight*)realloc(fl, (n + 1) * sizeof(struct flight*));
 	struct flight reys[20];
-	read(reys);
+	fl = reys;
+	read(fl);
 
 	do {
 		system("CLS");
@@ -513,22 +536,22 @@ int main()
 		switch (number)
 		{
 		case 1:
-			replenishment(reys);
+			replenishment(fl);
 			break;
 		case 2:
-			editing(reys);
+			editing(fl);
 			break;
 		case 3:
-			deleting(reys);
+			deleting(fl);
 			break;
 		case 4:
-			minTime(reys);
+			minTime(fl);
 			break;
 		case 5:
-			minPrice(reys);
+			minPrice(fl);
 			break;
 		case 6:
-			load(reys);
+			load(fl);
 			break;
 		}
 	} while (number != 0);
