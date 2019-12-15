@@ -1,9 +1,7 @@
 ﻿  kursach2.0.cpp
-c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(51): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(145): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(148): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(151): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(160): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(450): warning C4101: line: неиспользованная локальная переменная
-c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(512): warning C4101: n: неиспользованная локальная переменная
+c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(153): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(156): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(159): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(168): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\user\desktop\учения\osnovy\kursovaya\kursach2.0\kursach2.0\kursach2.0.cpp(496): warning C4101: line: неиспользованная локальная переменная
   kursach2.0.vcxproj -> C:\Users\User\Desktop\Учения\Osnovy\kursovaya\kursach2.0\Debug\kursach2.0.exe
