@@ -15,18 +15,33 @@
 
 FILE *file;
 
-//void zero(char str[]);
 void read(struct flight * reys);
 void load(struct flight * reys, int n);
 int replenishment(struct flight * reys, int n);
 void editing(struct flight * reys);
-void deleting(struct flight * reys);
+int deleting(struct flight * reys, int n);
 void minPrice(struct flight * reys);
 void minTime(struct flight * reys);
 int counter_struct();
-//void probel_line(char str[]);
+void print();
 
-struct flight *fl;
+void print()
+{
+	system("CLS");
+	file = fopen("base.txt", "r");
+	char line[MAXLINE];
+	while (!feof(file))
+	{
+		fgets(line, MAXLINE, file);
+		if (*line == NULL)
+			break;
+		printf("%s", line);
+	}
+	fclose(file);
+
+	getchar();
+}
+
 
 struct flight
 {
@@ -37,31 +52,6 @@ struct flight
 	char time_a[5] = { 0 };
 	unsigned int price;
 };
-
-/*void zero(char str[])
-{
-	for (int i = 0; i < sizeof(str); i++)
-	{
-		str[i] = '\0';
-	}
-}*/
-
-/*void probel(char str[])
-{
-	for (int i = 0; i < strlen(str); i++)
-	{
-		str[i] = ' ';
-	}
-}*/
-
-/*void probel_line(char str[])
-{
-	for (int i = 0; i < 149; i++)
-	{
-		str[i] = ' ';
-	}
-	str[149] = '\0';
-}*/
 
 int counter_struct()
 {
@@ -189,16 +179,17 @@ int replenishment(struct flight * reys, int n)
 	system("CLS");
 	int cnt = 0;
 	int flag = 0;
-	for (int i = 0; reys[i].departures[0] != '\0'; i++)
+	for (int i = 0; reys[i].number >0; i++)
 	{
 		cnt++;
 	}
-	if (reys[cnt].number == 0)
+	if (reys[cnt].number == -1)
 	{
 		n = n;
 	}
 	else
 		n++;
+
 	reys[cnt].number = cnt + 1;
 	printf("- Пополнение базы данных -\n");
 	printf("Введите пункт вылета: ");
@@ -446,7 +437,7 @@ void editing(struct flight * reys)
 g:	flag = 0;
 }
 
-void deleting(struct flight * reys)
+int deleting(struct flight * reys, int n)
 {
 	int tr = 0;
 	int flag = 0;
@@ -475,26 +466,31 @@ void deleting(struct flight * reys)
 	memset(reys[tr - 1].departures, '\0', sizeof(reys[tr - 1].departures));
 	memset(reys[tr - 1].time_d, '\0', sizeof(reys[tr - 1].time_d));
 	memset(reys[tr - 1].time_a, '\0', sizeof(reys[tr - 1].time_a));
-	//zero(reys[tr - 1].departures);
-	//zero(reys[tr - 1].arrivals);
-	//zero(reys[tr - 1].time_d);
-	//zero(reys[tr - 1].time_a);
 	reys[tr - 1].price = 0;
-	reys[tr - 1].number = 0;
+	reys[tr - 1].number = -1;
 g: flag = 0;
 	printf("Запись удалена.\nВыполните загрузку чтобы сохранить изменения. \nНажмите любую клавишу для продолжения. ");
 	getchar();
 	getchar();
+	for (int i = 0; i < n; i++)
+	{
+		if (reys[i].number == -1)
+			n--;
+	}
+	return n;
 }
 
-void minPrice(struct flight * reys)
+void minPrice(struct flight * reys, int n)
 {
 	system("CLS");
 	char dep[19];
 	char arr[19];
+	char arr_t[19];
 	char dep_t[19];
 	char line[MAXLINE];
-	int cnt = 0;
+	int cnt[10] = { 0 };
+	int x = 0;
+	int z = 0;
 	unsigned int prices = 10000000;
 	unsigned int temp_price = 0;
 	int flag = 0;
@@ -502,30 +498,32 @@ void minPrice(struct flight * reys)
 	scanf("%s", &dep);
 	printf("Введите пункт прилета: ");
 	scanf("%s", &arr);
-	printf("\n" header);
-	strcpy(dep_t, dep);
-	//line[posDep] = line[posArr] = line[posPri] = line[posT_a] = line[posT_d] = line[95] = '|';
-	for (int i = 0; i < 20; i++)
+	
+	/*while ((strcmp(dep, dep_t)!=0) && (strcmp(arr, arr_t) != 0))
 	{
-		if ((strcmp(dep, reys[i].departures) == 0) && (strcmp(arr, reys[i].arrivals) == 0))
+		strcpy(dep_t, reys[x].departures);
+		strcpy(arr_t, reys[z].arrivals);
+
+	}*/
+	/*for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
 		{
-			temp_price = reys[i].price;
-			if (prices > temp_price)
-			{
-				prices = temp_price;
-			}
+			if (strcmp(arr, ) == 0);
+		}
+	}*/
+	for (int i = 0; i < n; i++)
+	{
+		if (strcmp(arr, reys[i].arrivals) == 0)
+		{
+			cnt[x++] = reys[i].number;
 		}
 	}
-	for (int i = 0; i < 20; i++)
-	{
-		if ((strcmp(dep_t, reys[i].departures) == 0) && (strcmp(arr, reys[i].arrivals) != 0))
-		{
-			strcpy(dep_t, reys[i].arrivals);
-		}
-	}
+	x = 0;
+
 }
 
-void minTime(struct flight * reys)
+void minTime(struct flight * reys, int n)
 {
 	system("CLS");
 	char dep[19];
@@ -539,67 +537,68 @@ void minTime(struct flight * reys)
 	printf("Введите пункт прилета: ");
 	scanf("%s", &arr);
 
-	for (int i = 0; delay > temp_delay; i++)
-	{
-		if (strcmp(reys[i].departures, dep) == 0)
-		{
-
-		}
-
-
-	}
-
 }
+
+struct flight *reys;
 
 int main()
 {
+	
 	setlocale(LC_ALL, "Russian");
 	int number;
 	int n;
 	n=counter_struct();
-	//fl = (struct flight*)realloc(fl, (n + 1) * sizeof(struct flight*));
-	struct flight reys[20];
-	//fl = reys;
+	
+	reys = (struct flight*)calloc(1000, sizeof(struct flight));
+	reys = (struct flight*)realloc(reys, (n + 1) * sizeof(struct flight));
+
 	read(reys);
 
 	do {
 		system("CLS");
 		printf("Выберете действие: \n");
-		printf("1 - Пополнение базы \n");
-		printf("2 - Редактирование базы \n");
-		printf("3 - Удаление записей \n");
-		printf("4 - Подбор маршрута с наименьшим временем ожидания при пересадке \n");
-		printf("5 - Подбор маршрута с наименьшей стоимостью \n");
-		printf("6 - Загрузка \n");
-		printf("0 - Выход \n\n");
+		printf("1 - Пополнение базы. \n");
+		printf("2 - Редактирование базы. \n");
+		printf("3 - Удаление записей. \n");
+		printf("4 - Подбор маршрута с наименьшим временем ожидания при пересадке. \n");
+		printf("5 - Подбор маршрута с наименьшей стоимостью. \n");
+		printf("6 - Загрузка. \n");
+		printf("7 - Просмотр записей. \n");
+		printf("0 - Выход. \n\n");
 		scanf("%d", &number);
 
-		if ((number < 0) || (number > 6))
+		if ((number < 0) || (number > 7))
 		{
-			printf("Ошибка. Выбрано несуществующее действие");
+			printf("Ошибка. Выбрано несуществующее действие.");
 		}
 
 		switch (number)
 		{
 		case 1:
 			n=replenishment(reys, n);
+			reys = (struct flight*)realloc(reys, (n + 1) * sizeof(struct flight));
 			break;
 		case 2:
 			editing(reys);
 			break;
 		case 3:
-			deleting(reys);
+			n=deleting(reys, n);
+			reys = (struct flight*)realloc(reys, (n + 1) * sizeof(struct flight));
 			break;
 		case 4:
-			minTime(reys);
+			minTime(reys, n);
 			break;
 		case 5:
-			minPrice(reys);
+			minPrice(reys, n);
 			break;
 		case 6:
 			load(reys, n);
 			break;
+		case 7:
+			load(reys, n);
+			print();
 		}
 	} while (number != 0);
+	free(reys);
 	return 0;
 }
